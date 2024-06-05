@@ -34,7 +34,6 @@ class BluetoothService : Service() {
                 "Running at Background",
                 NotificationManager.IMPORTANCE_MIN
             )
-            channel.importance = NotificationManager.IMPORTANCE_DEFAULT
             channel.description = "Running at Background"
             notificationManager.createNotificationChannel(channel)
         }
@@ -45,7 +44,7 @@ class BluetoothService : Service() {
             .setContentTitle("PEEPER")
             .setOngoing(true)
             .setOnlyAlertOnce(true)
-            .setPriority(Notification.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_MIN)
             .setSmallIcon(R.mipmap.ic_launcher)
             .build()
     }
