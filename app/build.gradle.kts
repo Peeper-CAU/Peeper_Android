@@ -23,6 +23,10 @@ android {
         buildConfigField("Int", "SERVER_PORT", gradleLocalProperties(rootDir, providers).getProperty("server.port"))
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
