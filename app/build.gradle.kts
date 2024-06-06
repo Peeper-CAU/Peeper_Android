@@ -20,7 +20,7 @@ android {
 
         android.buildFeatures.buildConfig = true
         buildConfigField("String", "SERVER_URL", gradleLocalProperties(rootDir, providers).getProperty("server.url"))
-        buildConfigField("Int", "SERVER_PORT", gradleLocalProperties(rootDir, providers).getProperty("server.port"))
+        buildConfigField("String", "SERVER_PORT", gradleLocalProperties(rootDir, providers).getProperty("server.port"))
     }
 
     buildFeatures {
