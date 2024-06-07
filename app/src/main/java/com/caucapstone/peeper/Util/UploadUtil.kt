@@ -47,11 +47,12 @@ object UploadUtil {
     }
 
     fun uploadUID(uid: String){
-        Log.i("Uploadutil", "Uploading UID")
+        Log.i("Uploadutil", String.format("Uploading UID %s", uid))
         if(serverStream != null && serverSocket != null){
             val serverStreamWrite = OutputStreamWriter(serverStream, StandardCharsets.UTF_8)
             serverStreamWrite.write(uid)
         }
+        Log.i("Uploadutil", String.format("Uploaded UID %s", uid))
     }
 
     fun uploadFile(filename: String) {
