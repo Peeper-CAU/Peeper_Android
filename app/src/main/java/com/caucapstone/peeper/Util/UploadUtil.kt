@@ -35,7 +35,9 @@ object UploadUtil {
     }
 
     fun uploadUID(uid: String){
-
+        if(serverStream != null && serverSocket != null){
+            serverStream!!.write(uid.toByteArray())
+        }
     }
 
     fun uploadFile() {
