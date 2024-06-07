@@ -1,5 +1,6 @@
 package com.caucapstone.peeper.Util
 
+import android.util.Log
 import com.caucapstone.peeper.BuildConfig
 import java.io.OutputStream
 import java.net.Socket
@@ -11,6 +12,7 @@ object UploadUtil {
     private var serverStream: OutputStream? = null
 
     fun initSocket() {
+        Log.i("Uploadutil", "Initializing Socket")
         if(serverSocket == null || serverSocket!!.isClosed) {
             serverSocket = Socket(SERVER_URL, SERVER_PORT.toInt())
         }
@@ -18,9 +20,11 @@ object UploadUtil {
         if(serverStream == null) {
             serverStream = serverSocket!!.getOutputStream()
         }
+        Log.i("Uploadutil", "Initialized Socket")
     }
 
     fun closeSocket() {
+        Log.i("Uploadutil", "Closing Socket")
         if(serverStream != null) {
             serverStream!!.close()
             serverStream = null
@@ -32,11 +36,14 @@ object UploadUtil {
             }
             serverSocket = null
         }
+        Log.i("Uploadutil", "Closed Socket")
     }
 
     fun uploadUID(uid: String){
+        Log.i("Uploadutil", "Uploading UID")
         if(serverStream != null && serverSocket != null){
             serverStream!!.write(uid.toByteArray())
+            Log.i("Uploadutil", "Uploaded UID")
         }
     }
 
