@@ -4,6 +4,7 @@ import java.io.FileOutputStream
 import java.util.Locale
 
 object FileUtil {
+    private var audioSize = 0
     private var fileCounter = 1
     private var fileStream: FileOutputStream? = null
 
@@ -18,6 +19,13 @@ object FileUtil {
             // TODO : Upload Function from UploadUtil
             fileStream!!.close()
             fileStream = null
+        }
+    }
+
+    fun appendData(data: ByteArray) {
+        if(fileStream != null){
+            fileStream!!.write(data, audioSize, data.size)
+            audioSize += data.size
         }
     }
 
