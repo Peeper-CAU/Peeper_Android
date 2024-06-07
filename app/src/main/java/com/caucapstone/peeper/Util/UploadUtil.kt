@@ -3,7 +3,9 @@ package com.caucapstone.peeper.Util
 import android.util.Log
 import com.caucapstone.peeper.BuildConfig
 import java.io.OutputStream
+import java.io.OutputStreamWriter
 import java.net.Socket
+import java.nio.charset.StandardCharsets
 
 object UploadUtil {
     private const val SERVER_PORT = BuildConfig.SERVER_PORT
@@ -42,8 +44,8 @@ object UploadUtil {
     fun uploadUID(uid: String){
         Log.i("Uploadutil", "Uploading UID")
         if(serverStream != null && serverSocket != null){
-            serverStream!!.write(uid.toByteArray())
-            Log.i("Uploadutil", "Uploaded UID")
+            val serverStreamWrite = OutputStreamWriter(serverStream, StandardCharsets.UTF_8)
+            serverStreamWrite.write(uid)
         }
     }
 
