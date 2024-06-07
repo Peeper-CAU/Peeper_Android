@@ -2,6 +2,11 @@ package com.caucapstone.peeper.Util
 
 import android.util.Log
 import com.caucapstone.peeper.BuildConfig
+import java.io.DataInput
+import java.io.DataInputStream
+import java.io.DataOutputStream
+import java.io.File
+import java.io.FileInputStream
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.net.Socket
@@ -49,7 +54,20 @@ object UploadUtil {
         }
     }
 
-    fun uploadFile() {
+    fun uploadFile(filename: String) {
+        Log.i("Uploadutil", String.format("Uploading File %s", filename))
+        if(serverSocket != null && serverStream != null){
+            val fileInputStream = DataInputStream(FileInputStream(File(filename)))
+            val fileOutputStream = DataOutputStream(serverStream)
 
+            var buffer = ByteArray(1024)
+            while(fileInputStream.read(buffer) > 0){
+                fileOutputStream.write(buffer)
+                fileOutputStream.flush()
+            }
+
+            fileOutputStream.close()
+            Log.i("Uploadutil", String.format("Uploaded File %s", filename))
+        }
     }
 }
