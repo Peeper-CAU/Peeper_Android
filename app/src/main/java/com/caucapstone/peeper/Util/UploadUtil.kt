@@ -34,8 +34,8 @@ object UploadUtil {
         }
     }
 
-    fun uploadUID(uid: String ){
-        
+    fun uploadUID(uid: String){
+
     }
 
     fun uploadFile() {
