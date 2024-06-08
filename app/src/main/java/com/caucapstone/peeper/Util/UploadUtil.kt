@@ -2,7 +2,6 @@ package com.caucapstone.peeper.Util
 
 import android.util.Log
 import com.caucapstone.peeper.BuildConfig
-import java.io.DataInput
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.File
