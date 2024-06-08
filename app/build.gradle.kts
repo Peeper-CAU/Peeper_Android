@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -15,6 +17,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        android.buildFeatures.buildConfig = true
+        buildConfigField("String", "SERVER_URL", gradleLocalProperties(rootDir, providers).getProperty("server.url"))
+        buildConfigField("String", "SERVER_PORT", gradleLocalProperties(rootDir, providers).getProperty("server.port"))
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
