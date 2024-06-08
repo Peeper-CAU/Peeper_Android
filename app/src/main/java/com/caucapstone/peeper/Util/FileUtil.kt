@@ -55,7 +55,7 @@ object FileUtil {
         }
     }
 
-    private fun writeFileheaderBuffer() {
+    private fun writeFileHeader() {
         if(fileStream != null) {
             val sampleRate = 16000.toLong() // 16000Hz
             val channels = 1                // Mono Channel
