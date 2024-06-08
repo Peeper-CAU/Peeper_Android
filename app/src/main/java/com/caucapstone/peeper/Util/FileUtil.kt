@@ -16,7 +16,8 @@ object FileUtil {
 
     fun closeFile(uid: String) {
         if(fileStream != null){
-            // TODO : Upload Function from UploadUtil
+            UploadUtil.uploadFile(getFileName(uid))
+            fileCounter++
             fileStream!!.close()
             fileStream = null
         }
