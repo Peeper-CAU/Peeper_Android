@@ -7,7 +7,7 @@ import java.io.FileOutputStream
 import java.util.Locale
 
 object FileUtil {
-    private var audioSize = 0
+    private var fileBuffer = byteArrayOf(0)
     private var fileCounter = 1
     private var fileObject: File? = null
     private var filePath: File? = null
@@ -38,15 +38,21 @@ object FileUtil {
 
     fun appendData(data: ByteArray) {
         Log.i("Uploadutil", String.format("Appending '%s' to File", data.toString()))
-        if(fileStream != null){
-            fileStream!!.write(data, audioSize, data.size)
-            audioSize += data.size
+        data.forEach { buf ->
+            fileBuffer += buf
         }
         Log.i("Uploadutil", "Appended data to File")
     }
 
     private fun getFileFullPath(uid: String): String {
         return String.format(Locale.getDefault(), "%s/%s-%d.wav", filePath!!.absolutePath, uid, fileCounter)
+    }
+
+    private fun writeFileData() {
+        if(fileStream != null){
+            fileStream!!.write(fileBuffer)
+            fileStream!!.flush()
+        }
     }
 
     private fun writeFileHeader(filename: String) {
