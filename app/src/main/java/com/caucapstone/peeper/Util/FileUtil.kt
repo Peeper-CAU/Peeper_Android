@@ -14,7 +14,7 @@ object FileUtil {
     private var fileStream: FileOutputStream? = null
 
     fun initFile(uid: String, context: Context) {
-        Log.i("Uploadutil", "Initializing New File")
+        Log.i("FileUtil", "Initializing New File")
         if(fileObject == null) {
             filePath = context.filesDir
             fileObject = File(getFileFullPath(uid))
@@ -22,26 +22,26 @@ object FileUtil {
         if(fileStream == null) {
             fileStream = FileOutputStream(fileObject)
         }
-        Log.i("Uploadutil", String.format("Initialized File %s", getFileFullPath(uid)))
+        Log.i("FileUtil", String.format("Initialized File %s", getFileFullPath(uid)))
     }
 
     fun closeFile(uid: String) {
-        Log.i("Uploadutil", "Closing File")
+        Log.i("FileUtil", "Closing File")
         if(fileStream != null) {
             UploadUtil.uploadFile(getFileFullPath(uid))
             fileCounter++
             fileStream!!.close()
             fileStream = null
         }
-        Log.i("Uploadutil", String.format("Closing File %s", getFileFullPath(uid)))
+        Log.i("FileUtil", String.format("Closing File %s", getFileFullPath(uid)))
     }
 
     fun appendData(data: ByteArray) {
-        Log.i("Uploadutil", String.format("Appending '%s' to File", data.toString()))
+        Log.i("FileUtil", String.format("Appending '%s' to File", data.toString()))
         data.forEach { buf ->
             fileBuffer += buf
         }
-        Log.i("Uploadutil", "Appended data to File")
+        Log.i("FileUtil", "Appended data to File")
     }
 
     private fun getFileFullPath(uid: String): String {
@@ -49,13 +49,16 @@ object FileUtil {
     }
 
     private fun writeFileData() {
+        Log.i("FileUtil", "Writing Data to File")
         if(fileStream != null) {
             fileStream!!.write(fileBuffer)
             fileStream!!.flush()
         }
+        Log.i("FileUtil", "Writing Data to File Done")
     }
 
     private fun writeFileHeader() {
+        Log.i("FileUtil", "Writing Header to File")
         if(fileStream != null) {
             val sampleRate = 16000.toLong() // 16000Hz
             val channels = 1                // Mono Channel
@@ -123,5 +126,6 @@ object FileUtil {
             headerBuffer[43] = (fileBuffer.size.toLong() shr 24 and 0xffL).toByte()
             fileStream!!.write(headerBuffer, 0, 44)
         }
+        Log.i("FileUtil", "Writing Header to File Done")
     }
 }
