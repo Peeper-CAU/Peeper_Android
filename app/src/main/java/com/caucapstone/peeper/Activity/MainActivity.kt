@@ -24,14 +24,28 @@ class MainActivity : AppCompatActivity() {
 
         val btnStart = findViewById<MaterialButton>(R.id.main_btn_start)
         val btnStop = findViewById<MaterialButton>(R.id.main_btn_stop)
+        val btnTestFile = findViewById<MaterialButton>(R.id.main_btn_test_file)
+        val btnTestUpload = findViewById<MaterialButton>(R.id.main_btn_test_upload)
         btnStart.setOnClickListener(btnListener)
         btnStop.setOnClickListener(btnListener)
+        btnTestFile.setOnClickListener(btnListener)
+        btnTestUpload.setOnClickListener(btnListener)
     }
 
     private val btnListener = View.OnClickListener { btn ->
         when(btn.id) {
             R.id.main_btn_start -> startService(Intent(this, BluetoothService::class.java))
             R.id.main_btn_stop -> stopService(Intent(this, BluetoothService::class.java))
+            R.id.main_btn_test_file -> testFile()
+            R.id.main_btn_test_upload -> testUpload()
         }
+    }
+
+    private fun testFile() {
+
+    }
+
+    private fun testUpload() {
+
     }
 }
