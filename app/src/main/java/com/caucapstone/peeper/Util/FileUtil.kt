@@ -32,6 +32,7 @@ object FileUtil {
             writeFileHeader()
             writeFileData()
             fileCounter++
+            fileObject = null
             fileStream!!.close()
             fileStream = null
         }
