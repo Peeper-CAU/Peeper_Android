@@ -45,7 +45,7 @@ object FileUtil {
         Log.i("FileUtil", "Appended data to File")
     }
 
-    private fun getFileFullPath(uid: String): String {
+    fun getFileFullPath(uid: String): String {
         return String.format(Locale.getDefault(), "%s/%s-%d.wav", filePath!!.absolutePath, uid, fileCounter)
     }
 
