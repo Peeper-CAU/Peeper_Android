@@ -28,7 +28,8 @@ object FileUtil {
     fun closeFile(uid: String) {
         Log.i("FileUtil", "Closing File")
         if(fileStream != null) {
-            UploadUtil.uploadFile(getFileFullPath(uid))
+            writeFileHeader()
+            writeFileData()
             fileCounter++
             fileStream!!.close()
             fileStream = null
