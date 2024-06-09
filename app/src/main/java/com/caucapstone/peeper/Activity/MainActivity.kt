@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
+    private var fileName = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("Util Test", "Wrote to File!!")
 
         Log.d("Util Test", "Closing File!!")
-        FileUtil.closeFile(testUID)
+        fileName = FileUtil.closeFile(testUID)
         Log.d("Util Test", "Closed File!!")
         Log.d("Util Test", "File Test Done!!")
     }
@@ -82,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Util Test", "Uploaded UID!!")
 
                 Log.d("Util Test", "Uploading File!!")
-                UploadUtil.uploadFile(testUID)
+                UploadUtil.uploadFile(fileName)
                 Log.d("Util Test", "Uploaded File!!")
 
                 Log.d("Util Test", "Closing Socket!!")
