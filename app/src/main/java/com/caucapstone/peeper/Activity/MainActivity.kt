@@ -2,6 +2,7 @@ package com.caucapstone.peeper.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.caucapstone.peeper.R
 import com.caucapstone.peeper.Service.BluetoothService
+import com.caucapstone.peeper.Util.FileUtil
 import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
@@ -42,7 +44,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun testFile() {
+        val testBytes = byteArrayOf(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1)
+        val testUID = "TEST_UID"
+        Log.d("Util Test", "File Test Started!!")
+        Log.d("Util Test", "Initializing File!!")
+        FileUtil.initFile(testUID, applicationContext)
+        Log.d("Util Test", "Initialized File!!")
 
+        Log.d("Util Test", "Writing Bytes to File!!")
+        FileUtil.appendData(testBytes)
+        Log.d("Util Test", "Wrote to File!!")
+
+        Log.d("Util Test", "Closing File!!")
+        FileUtil.closeFile(testUID)
+        Log.d("Util Test", "Closed File!!")
+        Log.d("Util Test", "File Test Done!!")
     }
 
     private fun testUpload() {
