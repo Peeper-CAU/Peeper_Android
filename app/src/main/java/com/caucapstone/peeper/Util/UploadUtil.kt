@@ -54,10 +54,11 @@ object UploadUtil {
         Log.i("Uploadutil", String.format("Uploaded UID %s", uid))
     }
 
-    fun uploadFile(filename: String) {
-        Log.i("Uploadutil", String.format("Uploading File %s", filename))
+    fun uploadFile(uid: String) {
+        val fileFullPath = FileUtil.getFileFullPath(uid)
+        Log.i("Uploadutil", String.format("Uploading File %s", fileFullPath))
         if(serverSocket != null && serverStream != null){
-            val fileInputStream = DataInputStream(FileInputStream(File(filename)))
+            val fileInputStream = DataInputStream(FileInputStream(File(fileFullPath)))
             val fileOutputStream = DataOutputStream(serverStream)
 
             var buffer = ByteArray(1024)
@@ -67,7 +68,7 @@ object UploadUtil {
             }
 
             fileOutputStream.close()
-            Log.i("Uploadutil", String.format("Uploaded File %s", filename))
+            Log.i("Uploadutil", String.format("Uploaded File %s", fileFullPath))
         }
     }
 }
