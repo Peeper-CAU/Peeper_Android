@@ -13,6 +13,10 @@ import com.caucapstone.peeper.Service.BluetoothService
 import com.caucapstone.peeper.Util.FileUtil
 import com.caucapstone.peeper.Util.UploadUtil
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,23 +67,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun testUpload() {
+        val coroutineScope = CoroutineScope(Dispatchers.Main)
         val testUID = "TEST_UID"
         Log.d("Util Test", "Upload Test Started!!")
-        Log.d("Util Test", "Initializing Socket!!")
-        UploadUtil.initSocket()
-        Log.d("Util Test", "Initialized Socket!!")
 
-        Log.d("Util Test", "Uploading UID!!")
-        UploadUtil.uploadUID(testUID)
-        Log.d("Util Test", "Uploaded UID!!")
+        coroutineScope.launch {
+            withContext(Dispatchers.IO) {
+                Log.d("Util Test", "Initializing Socket!!")
+                UploadUtil.initSocket()
+                Log.d("Util Test", "Initialized Socket!!")
 
-        Log.d("Util Test", "Uploading File!!")
-        UploadUtil.uploadFile(testUID)
-        Log.d("Util Test", "Uploaded File!!")
+                Log.d("Util Test", "Uploading UID!!")
+                UploadUtil.uploadUID(testUID)
+                Log.d("Util Test", "Uploaded UID!!")
 
-        Log.d("Util Test", "Closing Socket!!")
-        UploadUtil.closeSocket()
-        Log.d("Util Test", "Closed Socket!!")
+                Log.d("Util Test", "Uploading File!!")
+                UploadUtil.uploadFile(testUID)
+                Log.d("Util Test", "Uploaded File!!")
+
+                Log.d("Util Test", "Closing Socket!!")
+                UploadUtil.closeSocket()
+                Log.d("Util Test", "Closed Socket!!")
+            }
+        }
         Log.d("Util Test", "Upload Test Done!!")
     }
 }
