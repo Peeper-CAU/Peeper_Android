@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.caucapstone.peeper.R
 import com.caucapstone.peeper.Service.BluetoothService
 import com.caucapstone.peeper.Util.FileUtil
+import com.caucapstone.peeper.Util.UploadUtil
 import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
@@ -62,6 +63,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun testUpload() {
+        val testUID = "TEST_UID"
+        Log.d("Util Test", "Upload Test Started!!")
+        Log.d("Util Test", "Initializing Socket!!")
+        UploadUtil.initSocket()
+        Log.d("Util Test", "Initialized Socket!!")
 
+        Log.d("Util Test", "Uploading UID!!")
+        UploadUtil.uploadUID(testUID)
+        Log.d("Util Test", "Uploaded UID!!")
+
+        Log.d("Util Test", "Uploading File!!")
+        UploadUtil.uploadFile(testUID)
+        Log.d("Util Test", "Uploaded File!!")
+
+        Log.d("Util Test", "Closing Socket!!")
+        UploadUtil.closeSocket()
+        Log.d("Util Test", "Closed Socket!!")
+        Log.d("Util Test", "Upload Test Done!!")
     }
 }
