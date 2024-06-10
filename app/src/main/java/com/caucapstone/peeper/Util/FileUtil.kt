@@ -25,15 +25,19 @@ object FileUtil {
         Log.i("FileUtil", String.format("Initialized File %s", getFileFullPath(uid)))
     }
 
-    fun closeFile(uid: String) {
+    fun closeFile(uid: String): String {
         Log.i("FileUtil", "Closing File")
+        val fileName = getFileFullPath(uid)
         if(fileStream != null) {
-            UploadUtil.uploadFile(getFileFullPath(uid))
+            writeFileHeader()
+            writeFileData()
             fileCounter++
+            fileObject = null
             fileStream!!.close()
             fileStream = null
         }
-        Log.i("FileUtil", String.format("Closing File %s", getFileFullPath(uid)))
+        Log.i("FileUtil", String.format("Closing File %s", fileName))
+        return fileName
     }
 
     fun appendData(data: ByteArray) {
@@ -44,7 +48,7 @@ object FileUtil {
         Log.i("FileUtil", "Appended data to File")
     }
 
-    private fun getFileFullPath(uid: String): String {
+    fun getFileFullPath(uid: String): String {
         return String.format(Locale.getDefault(), "%s/%s-%d.wav", filePath!!.absolutePath, uid, fileCounter)
     }
 
