@@ -1,11 +1,16 @@
 package com.caucapstone.peeper.Activity
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.caucapstone.peeper.R
@@ -29,6 +34,12 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!hasBluetoothPermissions()) {
+                requestBluetoothPermissions.launch(bluetoothPermissions)
+            }
         }
 
         val btnStart = findViewById<MaterialButton>(R.id.main_btn_start)
@@ -94,4 +105,27 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d("Util Test", "Upload Test Done!!")
     }
+
+    private val bluetoothPermissions = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.BLUETOOTH_SCAN,
+        Manifest.permission.BLUETOOTH_CONNECT
+    )
+
+    private fun hasBluetoothPermissions(): Boolean {
+        return bluetoothPermissions.all { permission ->
+            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private val requestBluetoothPermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            var allPermissionsGranted = true
+            permissions.entries.forEach {
+                if (!it.value) {
+                    allPermissionsGranted = false
+                }
+            }
+        }
 }
