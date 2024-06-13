@@ -12,20 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Record Start"
-        android:id="@+id/main_btn_start"
-        app:layout_constraintBottom_toTopOf="@id/main_btn_stop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Record Stop"
-        android:id="@+id/main_btn_stop"
+        android:id="@+id/main_btn_record"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_btn_start" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
