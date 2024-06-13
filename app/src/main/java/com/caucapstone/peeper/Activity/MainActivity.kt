@@ -2,6 +2,7 @@ package com.caucapstone.peeper.Activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioFormat
 import android.media.AudioRecord
@@ -16,9 +17,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.caucapstone.peeper.R
+import com.caucapstone.peeper.Service.FCMService
 import com.caucapstone.peeper.Util.FileUtil
 import com.caucapstone.peeper.Util.UploadUtil
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,6 +54,9 @@ class MainActivity : AppCompatActivity() {
         val btnStop = findViewById<MaterialButton>(R.id.main_btn_stop)
         btnStart.setOnClickListener(btnListener)
         btnStop.setOnClickListener(btnListener)
+
+        startService(Intent(this, FCMService::class.java))
+        FirebaseMessaging.getInstance().subscribeToTopic(testUID)
     }
 
     private val btnListener = View.OnClickListener { btn ->
@@ -97,8 +103,10 @@ class MainActivity : AppCompatActivity() {
                 audioRecord.stop()
                 fileName = FileUtil.closeFile(testUID, recordByteSize)
 
+                UploadUtil.initSocket()
                 UploadUtil.uploadUID(testUID)
                 UploadUtil.uploadFile(fileName)
+                UploadUtil.closeSocket()
             }
         }
     }
