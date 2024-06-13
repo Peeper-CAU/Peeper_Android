@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private var fileName = ""
     private var isRecording = false
 
-    val testUID = "TEST_UID"
+    val testUID = "DEFAULT_UID"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
