@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:icon="@drawable/ic_mic_disabled"
+        app:icon="@drawable/ic_mic"
         app:iconSize="48dp"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
