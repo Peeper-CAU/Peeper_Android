@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="아래 버튼을 눌러 음성 녹음을 시작하세요."
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:id="@+id/main_tv_status"
         app:layout_constraintBottom_toTopOf="@id/main_btn_record"
         app:layout_constraintTop_toTopOf="parent"
