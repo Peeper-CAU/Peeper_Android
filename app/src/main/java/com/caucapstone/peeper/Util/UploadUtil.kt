@@ -48,8 +48,7 @@ object UploadUtil {
     fun uploadUID(uid: String){
         Log.i("Uploadutil", String.format("Uploading UID %s", uid))
         if(serverStream != null && serverSocket != null){
-            serverStream!!.write(uid.toByteArray())
-            serverStream!!.write("EOF".toByteArray())
+            serverStream!!.write((uid + "EOF").toByteArray())
         }
         Log.i("Uploadutil", String.format("Uploaded UID %s", uid))
     }
@@ -66,9 +65,8 @@ object UploadUtil {
                 fileOutputStream.flush()
             }
 
+            fileOutputStream.write("EOF".toByteArray())
             fileOutputStream.close()
-            val serverStreamWrite = OutputStreamWriter(serverStream, StandardCharsets.UTF_8)
-            serverStreamWrite.write("EOF")
             Log.i("Uploadutil", String.format("Uploaded File %s", fileName))
         }
     }
