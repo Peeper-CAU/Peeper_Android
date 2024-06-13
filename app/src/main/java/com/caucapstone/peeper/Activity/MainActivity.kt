@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (!hasBluetoothPermissions()) {
-                requestBluetoothPermissions.launch(bluetoothPermissions)
+            if (!hasPermissions()) {
+                requestBluetoothPermissions.launch(permissionArray)
             }
         }
 
@@ -106,12 +106,12 @@ class MainActivity : AppCompatActivity() {
         Log.d("Util Test", "Upload Test Done!!")
     }
 
-    private val bluetoothPermissions = arrayOf(
+    private val permissionArray = arrayOf(
         Manifest.permission.RECORD_AUDIO
     )
 
-    private fun hasBluetoothPermissions(): Boolean {
-        return bluetoothPermissions.all { permission ->
+    private fun hasPermissions(): Boolean {
+        return permissionArray.all { permission ->
             ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
         }
     }
