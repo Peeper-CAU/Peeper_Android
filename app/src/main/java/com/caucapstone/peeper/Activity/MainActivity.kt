@@ -50,10 +50,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val btnStart = findViewById<MaterialButton>(R.id.main_btn_start)
-        val btnStop = findViewById<MaterialButton>(R.id.main_btn_stop)
-        btnStart.setOnClickListener(btnListener)
-        btnStop.setOnClickListener(btnListener)
+        val btnRecord = findViewById<MaterialButton>(R.id.main_btn_record)
+        btnRecord.setOnClickListener(btnListener)
 
         startService(Intent(this, FCMService::class.java))
         FirebaseMessaging.getInstance().subscribeToTopic(testUID)
@@ -61,8 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     private val btnListener = View.OnClickListener { btn ->
         when(btn.id) {
-            R.id.main_btn_start -> startRecord()
-            R.id.main_btn_stop -> stopRecord()
+            R.id.main_btn_record -> if(isRecording) stopRecord() else startRecord()
         }
     }
 
