@@ -17,11 +17,11 @@ class CallReceiver: BroadcastReceiver() {
                     Log.i("CallReeiver", "Call Incoming!!")
                 } else if(intentState == TelephonyManager.EXTRA_STATE_OFFHOOK) {
                     Log.i("CallReeiver", "Call Ongoing!!")
-                    context.startService(Intent(context, BluetoothService::class.java))
+//                    context.startService(Intent(context, BluetoothService::class.java))
                     Log.i("CallReeiver", "Started BluetoothService!!")
                 } else if(intentState == TelephonyManager.EXTRA_STATE_IDLE) {
                     Log.i("CallReeiver", "Call Ended!!")
-                    context.stopService(Intent(context, BluetoothService::class.java))
+//                    context.stopService(Intent(context, BluetoothService::class.java))
                     Log.i("CallReeiver", "Stopped BluetoothService!!")
                 }
             }
