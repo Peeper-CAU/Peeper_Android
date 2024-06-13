@@ -11,7 +11,7 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Service"
+        android:text="Record Start"
         android:id="@+id/main_btn_start"
         app:layout_constraintBottom_toTopOf="@id/main_btn_stop"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +21,7 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stop Service"
+        android:text="Record Stop"
         android:id="@+id/main_btn_stop"
         app:layout_constraintBottom_toTopOf="@id/main_btn_test_file"
         app:layout_constraintEnd_toEndOf="parent"
