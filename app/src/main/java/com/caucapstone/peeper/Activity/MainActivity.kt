@@ -29,6 +29,7 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
+    private var btnRecord: MaterialButton? = null
     private var fileName = ""
     private var isRecording = false
 
@@ -50,8 +51,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val btnRecord = findViewById<MaterialButton>(R.id.main_btn_record)
-        btnRecord.setOnClickListener(btnListener)
+        btnRecord = findViewById<MaterialButton>(R.id.main_btn_record)
+        btnRecord!!.setOnClickListener(btnListener)
 
         startService(Intent(this, FCMService::class.java))
         FirebaseMessaging.getInstance().subscribeToTopic(testUID)
@@ -59,7 +60,13 @@ class MainActivity : AppCompatActivity() {
 
     private val btnListener = View.OnClickListener { btn ->
         when(btn.id) {
-            R.id.main_btn_record -> if(isRecording) stopRecord() else startRecord()
+            R.id.main_btn_record -> if(isRecording) {
+                btnRecord!!.icon = resources.getDrawable(R.drawable.ic_mic)
+                stopRecord()
+            } else {
+                btnRecord!!.icon = resources.getDrawable(R.drawable.ic_uploading)
+                startRecord()
+            }
         }
     }
 
