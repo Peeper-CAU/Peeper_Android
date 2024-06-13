@@ -10,6 +10,7 @@ import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -27,12 +28,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.time.Duration
+import java.time.Instant
 
 class MainActivity : AppCompatActivity() {
+    private var btnRecord: MaterialButton? = null
+    private var tvStatus: TextView? = null
+
     private var fileName = ""
     private var isRecording = false
 
-    val testUID = "TEST_UID"
+    val testUID = "DEFAULT_UID"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +56,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val btnStart = findViewById<MaterialButton>(R.id.main_btn_start)
-        val btnStop = findViewById<MaterialButton>(R.id.main_btn_stop)
-        btnStart.setOnClickListener(btnListener)
-        btnStop.setOnClickListener(btnListener)
+        btnRecord = findViewById<MaterialButton>(R.id.main_btn_record)
+        btnRecord!!.setOnClickListener(btnListener)
+
+        tvStatus = findViewById(R.id.main_tv_status)
 
         startService(Intent(this, FCMService::class.java))
         FirebaseMessaging.getInstance().subscribeToTopic(testUID)
@@ -61,8 +67,15 @@ class MainActivity : AppCompatActivity() {
 
     private val btnListener = View.OnClickListener { btn ->
         when(btn.id) {
-            R.id.main_btn_start -> startRecord()
-            R.id.main_btn_stop -> stopRecord()
+            R.id.main_btn_record -> if(isRecording) {
+                btnRecord!!.icon = resources.getDrawable(R.drawable.ic_mic)
+                tvStatus!!.text = "아래 버튼을 눌러 음성 녹음을 시작하세요."
+                stopRecord()
+            } else {
+                btnRecord!!.icon = resources.getDrawable(R.drawable.ic_uploading)
+                tvStatus!!.text = "음성 녹음 데이터를 업로드하는 중입니다."
+                startRecord()
+            }
         }
     }
 
@@ -87,9 +100,26 @@ class MainActivity : AppCompatActivity() {
         val coroutineScope = CoroutineScope(Dispatchers.Main)
         coroutineScope.launch {
             withContext(Dispatchers.IO) {
+                var startTimestamp = Instant.now()
+
                 audioRecord.startRecording()
                 isRecording = true
                 while(isRecording) {
+                    val curTimestamp = Instant.now()
+                    val curDuration = Duration.between(startTimestamp, curTimestamp).toMillis()
+                    if(curDuration >= 5000) {
+                        fileName = FileUtil.closeFile(testUID, recordByteSize)
+
+                        UploadUtil.initSocket()
+                        UploadUtil.uploadUID(testUID)
+                        UploadUtil.uploadFile(fileName)
+                        UploadUtil.closeSocket()
+
+                        FileUtil.initFile(testUID, applicationContext)
+
+                        startTimestamp = Instant.now()
+                    }
+
                     val readResult = audioRecord.read(audioBuffer, 0, recordByteSize)
                     if(readResult == AudioRecord.ERROR_INVALID_OPERATION ||
                         readResult == AudioRecord.ERROR_BAD_VALUE)
@@ -101,12 +131,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 audioRecord.stop()
-                fileName = FileUtil.closeFile(testUID, recordByteSize)
-
-                UploadUtil.initSocket()
-                UploadUtil.uploadUID(testUID)
-                UploadUtil.uploadFile(fileName)
-                UploadUtil.closeSocket()
             }
         }
     }
